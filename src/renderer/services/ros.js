@@ -20,17 +20,6 @@ class AutoRos extends EventEmitter2 {
     this.ros.on('connection', this.onConnection.bind(this))
     this.ros.on('close', this.onClose.bind(this))
     this.ros.on('error', this.onError.bind(this))
-
-    // reconnect behavior
-    this.on('status', function (status) {
-      switch (status) {
-        case 'closed':
-          setTimeout(this.connect.bind(this), RECONNECT_TIMEOUT)
-          break
-        default:
-          break
-      }
-    })
   }
 
   get status () {
@@ -64,6 +53,7 @@ class AutoRos extends EventEmitter2 {
   }
 
   onClose () {
+    setTimeout(this.connect.bind(this), RECONNECT_TIMEOUT)
     console.log('connection closed')
     this.status = 'closed'
   }
