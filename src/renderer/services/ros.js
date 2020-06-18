@@ -1,5 +1,5 @@
-import {hostname} from 'os'
-import {EventEmitter2} from 'eventemitter2'
+import { hostname } from 'os'
+import { EventEmitter2 } from 'eventemitter2'
 import ROSLIB from 'roslib'
 
 // Private variables
