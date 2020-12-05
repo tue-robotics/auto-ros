@@ -1,0 +1,34 @@
+{
+  "name": "auto-ros",
+  "version": "0.0.1",
+  "description": "Wrapper of ROSLIB.Ros which automatically reconnects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tue-robotics/auto-ros.git"
+  },
+  "author": {
+    "name": "Matthijs van der Burgh",
+    "email": "MatthijsBurgh@outlook.com"
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "scripts": {
+    "build": "babel src --out-dir dist",
+    "version": "npm run build",
+    "patch": "npm version patch && npm publish",
+    "minor": "npm version minor && npm publish",
+    "major": "npm version major && npm publish",
+    "postpublish": "git push && git push --tags"
+  },
+  "dependencies": {
+    "eventemitter2": "^6.4.3",
+    "roslib": "^1.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7"
+  }
+}
