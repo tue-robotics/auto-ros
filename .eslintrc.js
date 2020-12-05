@@ -7,7 +7,7 @@ module.exports = {
   overrides: [
     {
       files: [
-        '**/test/**/*.spec.{j,t}s?(x)'
+        '**/test/**/*.{j,t}s?(x)'
       ],
       env: {
         mocha: true

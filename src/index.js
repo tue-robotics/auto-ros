@@ -17,6 +17,8 @@ class AutoRos extends EventEmitter2 {
       encoding: 'ascii'
     })
 
+    this._status = 'closed'
+
     this.ros.on('connection', this.onConnection.bind(this))
     this.ros.on('close', this.onClose.bind(this))
     this.ros.on('error', this.onError.bind(this))
