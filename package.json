@@ -11,8 +11,12 @@
     "email": "MatthijsBurgh@outlook.com"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
+  "main": "src/index.js",
+  "module": "dist/index.js",
+  "source": "src/index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
     "lint": "eslint .",
