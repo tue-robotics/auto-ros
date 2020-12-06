@@ -1,11 +1,11 @@
 # auto-ros
 
-[![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![devDependency Status][daviddm-image-dev]][daviddm-url-dev]
+[![CI][gh-actions-image]][gh-actions-url] [![Dependency Status][daviddm-image]][daviddm-url] [![devDependency Status][daviddm-image-dev]][daviddm-url-dev]
 
 Wrapper of ROSLIB.Ros which automatically reconnects
 
-[travis-image]: https://travis-ci.com/tue-robotics/auto-ros.svg?branch=master
-[travis-url]: https://travis-ci.com/tue-robotics/auto-ros
+[gh-actions-image]: https://github.com/tue-robotics/auto-ros/workflows/CI/badge.svg
+[gh-actions-url]: https://github.com/tue-robotics/auto-ros/actions
 
 [daviddm-image]: https://david-dm.org/tue-robotics/auto-ros/status.svg
 [daviddm-url]: https://david-dm.org/tue-robotics/auto-ros
