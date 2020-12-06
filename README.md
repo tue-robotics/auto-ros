@@ -4,8 +4,6 @@
 
 Wrapper of ROSLIB.Ros which automatically reconnects
 
----
-
 [travis-image]: https://travis-ci.com/tue-robotics/auto-ros.svg?branch=master
 [travis-url]: https://travis-ci.com/tue-robotics/auto-ros
 
