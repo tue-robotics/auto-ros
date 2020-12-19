@@ -28,10 +28,10 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "mocha --require @babel/register test/*.js",
     "version": "npm run build",
-    "patch": "npm version patch && npm publish",
-    "minor": "npm version minor && npm publish",
-    "major": "npm version major && npm publish",
-    "postpublish": "git push && git push --tags"
+    "patch": "npm version patch",
+    "minor": "npm version minor",
+    "major": "npm version major",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "eventemitter2": "^6.4.3",
