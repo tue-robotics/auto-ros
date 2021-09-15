@@ -11,14 +11,14 @@ const should = chai.should()
 describe('AutoRos', () => {
   const exampleUrl = 'ws://example.com:9090'
 
-  let auto_ros
+  let autoRos
   beforeEach('create a AutoRos', () => {
-    auto_ros = new AutoRos.constructor()
+    autoRos = new AutoRos()
   })
 
   let connect
   beforeEach('Stub connect', () => {
-    connect = stub(auto_ros.ros, 'connect')
+    connect = stub(autoRos.ros, 'connect')
     connect.returns()
   })
 
@@ -29,14 +29,14 @@ describe('AutoRos', () => {
   describe('AutoRos.connect', () => {
     it('Should connect to a custom url', () => {
       connect.should.have.not.been.called
-      auto_ros.connect(exampleUrl)
+      autoRos.connect(exampleUrl)
       connect.should.have.been.calledOnce
       connect.should.have.been.calledWithExactly(exampleUrl)
     })
 
     it('Should connect to a default url', () => {
       connect.should.have.not.been.called
-      auto_ros.connect()
+      autoRos.connect()
       connect.should.have.been.calledOnce
       connect.should.have.been.calledWithMatch(/ws:\/\/[a-zA-Z\d-.]+:9090/)
     })
@@ -44,10 +44,10 @@ describe('AutoRos', () => {
     it('Should remember the previous url', () => {
       connect.should.have.not.been.called
 
-      auto_ros.connect(exampleUrl)
+      autoRos.connect(exampleUrl)
       connect.should.have.been.calledOnce
 
-      auto_ros.connect()
+      autoRos.connect()
       connect.should.have.been.calledTwice
       connect.should.always.have.been.calledWithExactly(exampleUrl)
     })
@@ -61,17 +61,17 @@ describe('AutoRos', () => {
     beforeEach('Stub ros.socket.send', () => {
       // stub callOnConnection to prevent sending something on the websocket
       should.not.exist(null)
-      should.not.exist(auto_ros.ros.socket)
+      should.not.exist(autoRos.ros.socket)
 
       send = stub()
       send.returns()
-      auto_ros.ros.socket = {
+      autoRos.ros.socket = {
         send
       }
     })
 
     afterEach('Stub callOnConnection', () => {
-      auto_ros.ros.socket = null
+      autoRos.ros.socket = null
     })
 
     let clock
@@ -87,26 +87,26 @@ describe('AutoRos', () => {
      * Tests
      */
     it('Should have a default status', () => {
-      auto_ros.status.should.equal('closed')
+      autoRos.status.should.equal('closed')
     })
 
     it('Should respond to the ros::connection event', () => {
-      auto_ros.connect(exampleUrl)
-      auto_ros.status.should.equal('connecting')
+      autoRos.connect(exampleUrl)
+      autoRos.status.should.equal('connecting')
       connect.should.have.been.calledOnce
       connect.should.have.been.calledWithExactly(exampleUrl)
 
-      auto_ros.ros.emit('connection')
-      auto_ros.status.should.equal('connected')
+      autoRos.ros.emit('connection')
+      autoRos.status.should.equal('connected')
     })
 
     it('Should reconnect after the ros::closed event', () => {
-      auto_ros.connect(exampleUrl)
+      autoRos.connect(exampleUrl)
       connect.should.have.been.calledOnce
       connect.should.have.been.calledWithExactly(exampleUrl)
 
-      auto_ros.ros.emit('close')
-      auto_ros.status.should.equal('closed')
+      autoRos.ros.emit('close')
+      autoRos.status.should.equal('closed')
       clock.tick(500)
 
       connect.should.have.been.calledOnce
@@ -119,8 +119,8 @@ describe('AutoRos', () => {
     })
 
     it('Should respond to the ros::error event', () => {
-      auto_ros.ros.emit('error')
-      auto_ros.status.should.equal('error')
+      autoRos.ros.emit('error')
+      autoRos.status.should.equal('error')
     })
   })
 })

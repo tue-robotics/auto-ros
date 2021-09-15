@@ -10,12 +10,20 @@ const defaultUrl = `ws://${host}:9090`
 const RECONNECT_TIMEOUT = 5000
 
 class AutoRos extends EventEmitter2 {
-  constructor () {
+  constructor (options) {
     super()
 
-    this.ros = new ROSLIB.Ros({
-      encoding: 'ascii'
-    })
+    options = options || {}
+    if (!options.hasOwnProperty('encoding')) {
+        options.encoding = 'ascii'
+    }
+    if (!options.hasOwnProperty('transportLibrary')) {
+        options.transportLibrary = 'websocket'
+    }
+
+    console.log('Creating ROS with the options:', options)
+
+    this.ros = new ROSLIB.Ros(options)
 
     this._status = 'closed'
 
@@ -66,4 +74,4 @@ class AutoRos extends EventEmitter2 {
   }
 }
 
-export default new AutoRos()
+export default AutoRos
