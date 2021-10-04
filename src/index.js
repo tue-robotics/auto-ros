@@ -14,16 +14,15 @@ class AutoRos extends EventEmitter2 {
     super()
 
     options = options || {}
-    if (!options.hasOwnProperty('encoding')) {
-        options.encoding = 'ascii'
-    }
-    if (!options.hasOwnProperty('transportLibrary')) {
-        options.transportLibrary = 'websocket'
-    }
+    this._reconnectTimeOut = options.reconnectTimeOut || RECONNECT_TIMEOUT
 
-    console.log('Creating ROS with the options:', options)
+    var rosOptions = options.rosOptions || {}
+    rosOptions.encoding = rosOptions.encoding || 'ascii'
+    rosOptions.transportLibrary = rosOptions.transportLibrary || 'websocket'
 
-    this.ros = new ROSLIB.Ros(options)
+    console.debug('Creating ROS with the options:', rosOptions)
+
+    this.ros = new ROSLIB.Ros(rosOptions)
 
     this._status = 'closed'
 
@@ -63,7 +62,7 @@ class AutoRos extends EventEmitter2 {
   }
 
   onClose () {
-    setTimeout(this.connect.bind(this), RECONNECT_TIMEOUT)
+    setTimeout(this.connect.bind(this), this._reconnectTimeOut)
     console.log('connection closed')
     this.status = 'closed'
   }
