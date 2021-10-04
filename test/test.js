@@ -11,9 +11,10 @@ const should = chai.should()
 describe('AutoRos', () => {
   const exampleUrl = 'ws://example.com:9090'
 
+  let options = {}
   let autoRos
   beforeEach('create a AutoRos', () => {
-    autoRos = new AutoRos()
+    autoRos = new AutoRos(options)
   })
 
   let connect
@@ -27,6 +28,9 @@ describe('AutoRos', () => {
   })
 
   describe('AutoRos.connect', () => {
+    /**
+     * Tests
+     */
     it('Should connect to a custom url', () => {
       connect.should.have.not.been.called
       autoRos.connect(exampleUrl)
@@ -107,7 +111,7 @@ describe('AutoRos', () => {
 
       autoRos.ros.emit('close')
       autoRos.status.should.equal('closed')
-      clock.tick(500)
+      clock.tick(100)
 
       connect.should.have.been.calledOnce
       connect.should.have.been.calledWithExactly(exampleUrl)
@@ -121,6 +125,52 @@ describe('AutoRos', () => {
     it('Should respond to the ros::error event', () => {
       autoRos.ros.emit('error')
       autoRos.status.should.equal('error')
+    })
+  })
+
+  describe('Custom reconnectTimeOut', () => {
+    /**
+     * Stubs
+     */
+    let oldOptions
+    before('Set reconnectTimeOut', () => {
+      oldOptions = options
+      options = {reconnectTimeOut: 10000}
+    })
+
+    after('restore options', () => {
+      options = oldOptions
+      options.should.equal(oldOptions)
+    })
+
+    let clock
+    beforeEach('Stub setTimeout', () => {
+      clock = useFakeTimers()
+    })
+
+    afterEach('Restore setTimeout', () => {
+      clock.restore()
+    })
+
+    /**
+     * Tests
+     */
+    it('Should reconnect after the ros::closed event', () => {
+      autoRos.connect(exampleUrl)
+      connect.should.have.been.calledOnce
+      connect.should.have.been.calledWithExactly(exampleUrl)
+
+      autoRos.ros.emit('close')
+      autoRos.status.should.equal('closed')
+      clock.tick(5100)
+
+      connect.should.have.been.calledOnce
+      connect.should.have.been.calledWithExactly(exampleUrl)
+
+      clock.tick(5000)
+
+      connect.should.have.been.calledTwice
+      connect.should.always.have.been.calledWithExactly(exampleUrl)
     })
   })
 })
