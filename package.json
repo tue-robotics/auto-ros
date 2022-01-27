@@ -1,6 +1,6 @@
 {
   "name": "auto-ros",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Wrapper of ROSLIB.Ros which automatically reconnects",
   "repository": {
     "type": "git",
