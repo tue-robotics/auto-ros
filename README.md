@@ -1,6 +1,6 @@
 # auto-ros
 
-[![CI][gh-actions-image]][gh-actions-url] [![npm][npm-version-image]][npm-version-url] [![Dependency Status][daviddm-image]][daviddm-url] [![devDependency Status][daviddm-image-dev]][daviddm-url-dev]
+[![CI][gh-actions-image]][gh-actions-url] [![NPM version][npm-version-image]][npm-version-url] [![Dependency Status][daviddm-image]][daviddm-url] [![devDependency Status][daviddm-image-dev]][daviddm-url-dev]
 
 Wrapper of ROSLIB.Ros which automatically reconnects
 
