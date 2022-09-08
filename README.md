@@ -4,8 +4,8 @@
 
 Wrapper of ROSLIB.Ros which automatically reconnects
 
-[gh-actions-image]: https://github.com/tue-robotics/auto-ros/workflows/CI/badge.svg
-[gh-actions-url]: https://github.com/tue-robotics/auto-ros/actions
+[gh-actions-image]: https://github.com/tue-robotics/auto-ros/actions/workflows/main.yml/badge.svg
+[gh-actions-url]: https://github.com/tue-robotics/auto-ros/actions/workflows/main.yml
 
 [npm-version-image]: https://img.shields.io/npm/v/auto-ros.svg
 [npm-version-url]: https://www.npmjs.com/package/auto-ros
