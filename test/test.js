@@ -8,9 +8,9 @@ import AutoRos from '..'
 chai.use(sinonChai)
 const should = chai.should()
 
-describe('AutoRos', () => {
-  const exampleUrl = 'ws://example.com:9090'
+const exampleUrl = 'ws://example.com:9090'
 
+describe('AutoRos', () => {
   let options = {}
   let autoRos
   beforeEach('create a AutoRos', () => {
@@ -174,3 +174,14 @@ describe('AutoRos', () => {
     })
   })
 })
+
+describe('rosOptions.url is not allowed', () => {
+
+    it('Constructor should throw', () => {
+      const options = {rosOptions: {url: exampleUrl}}
+      var badConstructor = function() {
+      return new AutoRos(options)
+      }
+      badConstructor.should.throw(/url/)
+    })
+  })

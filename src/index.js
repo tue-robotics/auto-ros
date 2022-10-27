@@ -16,8 +16,7 @@ class AutoRos extends EventEmitter2 {
    * @param {Object} [options]
    * @param {number} [options.reconnectTimeOut=5000] - The reconnect timeout in ms.
    * @param {Object} [options.rosOptions] - Option object passed to the constructor of the ROSLIB.Ros object.
-   * @param {string} [options.rosOptions.encoding=ascii] - See ROSLIB docs
-   * @param {string} [options.rosOptions.transportLibrary=websocket] - See ROSLIB docs
+   * @param {string} [options.rosOptions.encoding=ascii] - Overruling the default of ROSLIB, which is 'utf8'.
    */
   constructor (options) {
     super()
@@ -27,7 +26,11 @@ class AutoRos extends EventEmitter2 {
 
     var rosOptions = options.rosOptions || {}
     rosOptions.encoding = rosOptions.encoding || 'ascii'
-    rosOptions.transportLibrary = rosOptions.transportLibrary || 'websocket'
+
+    if ('url' in rosOptions)
+    {
+      throw '"url" option to ROS is not allowed. Connect by calling the connect function on this object with the "url" as argument'
+    }
 
     console.debug('Creating ROS with the options:', rosOptions)
 
