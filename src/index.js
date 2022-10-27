@@ -16,6 +16,8 @@ class AutoRos extends EventEmitter2 {
    * @param {Object} [options]
    * @param {number} [options.reconnectTimeOut=5000] - The reconnect timeout in ms.
    * @param {Object} [options.rosOptions] - Option object passed to the constructor of the ROSLIB.Ros object.
+   * @param {string} [options.rosOptions.encoding=ascii] - See ROSLIB docs
+   * @param {string} [options.rosOptions.transportLibrary=websocket] - See ROSLIB docs
    */
   constructor (options) {
     super()
