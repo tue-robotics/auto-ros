@@ -43,10 +43,17 @@ class AutoRos extends EventEmitter2 {
     this.ros.on('error', this.onError.bind(this))
   }
 
+  /**
+   * Status getter
+   */
   get status () {
     return this._status
   }
 
+  /**
+   * Status setter
+   * @param {string} value - Value to be set
+   */
   set status (value) {
     this._status = value
     this.emit('status', value)
@@ -68,17 +75,26 @@ class AutoRos extends EventEmitter2 {
   }
 
   // ros status event handling
+  /**
+   * Event Callback on 'connection'
+   */
   onConnection () {
     console.log('connection')
     this.status = 'connected'
   }
 
+  /**
+   * Event Callback on 'close'
+   */
   onClose () {
     setTimeout(this.connect.bind(this), this._reconnectTimeOut)
     console.log('connection closed')
     this.status = 'closed'
   }
 
+  /**
+   * Event Callback on 'error'
+   */
   onError () {
     // console.log('connection error')
     this.status = 'error'

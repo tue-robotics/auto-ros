@@ -24,6 +24,8 @@
     "deps": "npm run deps:missing && npm run deps:extra",
     "deps:missing": "dependency-check . --missing",
     "deps:extra": "dependency-check . --extra --no-dev",
+    "predoc": "rimraf doc",
+    "doc": "jsdoc -c jsdoc_conf.json",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "test": "mocha --require @babel/register test/*.js",
@@ -46,7 +48,9 @@
     "chai": "^4.2.0",
     "dependency-check": "^4.1.0",
     "eslint": "^8.0.0",
+    "jsdoc": "^3.6.11",
     "mocha": "^10.0.0",
+    "rimraf": "^3.0.2",
     "sinon": "^14.0.0",
     "sinon-chai": "^3.5.0"
   }
