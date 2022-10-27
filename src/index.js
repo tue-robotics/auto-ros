@@ -10,6 +10,13 @@ const defaultUrl = `ws://${host}:9090`
 const RECONNECT_TIMEOUT = 5000
 
 class AutoRos extends EventEmitter2 {
+  /**
+   * Auto reconnecting wrapper of ROSLIB.Ros
+   *
+   * @param {Object} options
+   * @param {number} options.reconnectTimeOut - The reconnect timeout in ms.
+   * @param {Object} options.rosOptions - Option object passed to the constructor of the ROSLIB.Ros object.
+   */
   constructor (options) {
     super()
 
