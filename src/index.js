@@ -13,9 +13,9 @@ class AutoRos extends EventEmitter2 {
   /**
    * Auto reconnecting wrapper of ROSLIB.Ros
    *
-   * @param {Object} options
-   * @param {number} options.reconnectTimeOut - The reconnect timeout in ms.
-   * @param {Object} options.rosOptions - Option object passed to the constructor of the ROSLIB.Ros object.
+   * @param {Object} [options]
+   * @param {number} [options.reconnectTimeOut=5000] - The reconnect timeout in ms.
+   * @param {Object} [options.rosOptions] - Option object passed to the constructor of the ROSLIB.Ros object.
    */
   constructor (options) {
     super()
