@@ -10,12 +10,31 @@ const defaultUrl = `ws://${host}:9090`
 const RECONNECT_TIMEOUT = 5000
 
 class AutoRos extends EventEmitter2 {
-  constructor () {
+  /**
+   * Auto reconnecting wrapper of ROSLIB.Ros
+   *
+   * @param {Object} [options]
+   * @param {number} [options.reconnectTimeOut=5000] - The reconnect timeout in ms.
+   * @param {Object} [options.rosOptions] - Option object passed to the constructor of the ROSLIB.Ros object.
+   * @param {string} [options.rosOptions.encoding=ascii] - Overruling the default of ROSLIB, which is 'utf8'.
+   */
+  constructor (options) {
     super()
 
-    this.ros = new ROSLIB.Ros({
-      encoding: 'ascii'
-    })
+    options = options || {}
+    this._reconnectTimeOut = options.reconnectTimeOut || RECONNECT_TIMEOUT
+
+    var rosOptions = options.rosOptions || {}
+    rosOptions.encoding = rosOptions.encoding || 'ascii'
+
+    if ('url' in rosOptions)
+    {
+      throw '"url" option to ROS is not allowed. Connect by calling the connect function on this object with the "url" as argument'
+    }
+
+    console.debug('Creating ROS with the options:', rosOptions)
+
+    this.ros = new ROSLIB.Ros(rosOptions)
 
     this._status = 'closed'
 
@@ -55,7 +74,7 @@ class AutoRos extends EventEmitter2 {
   }
 
   onClose () {
-    setTimeout(this.connect.bind(this), RECONNECT_TIMEOUT)
+    setTimeout(this.connect.bind(this), this._reconnectTimeOut)
     console.log('connection closed')
     this.status = 'closed'
   }
@@ -66,4 +85,4 @@ class AutoRos extends EventEmitter2 {
   }
 }
 
-export default new AutoRos()
+export default AutoRos

@@ -1,6 +1,6 @@
 # auto-ros
 
-[![CI][gh-actions-image]][gh-actions-url] [![NPM version][npm-version-image]][npm-version-url] [![Dependency Status][daviddm-image]][daviddm-url] [![devDependency Status][daviddm-image-dev]][daviddm-url-dev]
+[![CI][gh-actions-image]][gh-actions-url] [![NPM version][npm-version-image]][npm-version-url]
 
 Wrapper of ROSLIB.Ros which automatically reconnects
 
@@ -10,7 +10,12 @@ Wrapper of ROSLIB.Ros which automatically reconnects
 [npm-version-image]: https://img.shields.io/npm/v/auto-ros.svg
 [npm-version-url]: https://www.npmjs.com/package/auto-ros
 
-[daviddm-image]: https://david-dm.org/tue-robotics/auto-ros/status.svg
-[daviddm-url]: https://david-dm.org/tue-robotics/auto-ros
-[daviddm-image-dev]: https://david-dm.org/tue-robotics/auto-ros/dev-status.svg
-[daviddm-url-dev]: https://david-dm.org/tue-robotics/auto-ros?type=dev
+## Usage
+
+```js
+import AutoRos from 'auto-ros'
+
+const autoRos = new AutoRos()
+
+autoRos.connect()
+```
