@@ -9,7 +9,6 @@ export class AutoRos extends EventEmitter2 {
 		reconnectTimeOut?: number,
 		rosOptions?: {
 			encoding?: string,
-			url?: string
 		}
         });
 
