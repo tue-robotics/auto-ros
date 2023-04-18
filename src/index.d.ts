@@ -5,15 +5,14 @@ export class AutoRos extends EventEmitter2 {
 
 	public ros: ROSLIB.Ros;
 
-	/* Needs to contain 
-	   * rosOptions
-	   * reconnectTimeOut
-	   * rosOptions.encoding
-	  */
-	constructor();
-	constructor(options:{
-		url?: string
-	});
+	constructor(options?:{
+		reconnectTimeOut?: number,
+		rosOptions?: {
+			encoding?: string,
+			url?: string
+		}
+        });
+
 	connect(url:string):void;
 
 }
