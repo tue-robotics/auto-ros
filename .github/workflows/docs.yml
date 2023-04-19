@@ -1,8 +1,9 @@
 name: Docs Deployment
 
 on:
-  release:
-    types: [released]
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   docs:
