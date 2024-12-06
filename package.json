@@ -46,7 +46,7 @@
     "@babel/eslint-parser": "^7.12.0",
     "@babel/preset-env": "^7.12.0",
     "@babel/register": "^7.12.0",
-    "chai": "^4.2.0",
+    "chai": "^5.1.2",
     "dependency-check": "^4.1.0",
     "eslint": "^9.2.0",
     "globals": "^15.1.0",
