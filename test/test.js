@@ -1,9 +1,8 @@
 /* eslint no-unused-expressions: 0 */
-import chai from 'chai'
+import * as chai from 'chai'
 import sinonChai from 'sinon-chai'
 import { stub, useFakeTimers } from 'sinon'
-
-import AutoRos from '..'
+import AutoRos from '../src/index.js';
 
 chai.use(sinonChai)
 const should = chai.should()

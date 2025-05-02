@@ -10,6 +10,7 @@
     "name": "Matthijs van der Burgh",
     "email": "MatthijsBurgh@outlook.com"
   },
+  "type": "module",
   "files": [
     "dist",
     "src"
@@ -29,7 +30,7 @@
     "doc": "jsdoc -c jsdoc_conf.json",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "test": "mocha --require @babel/register test/*.js",
+    "test": "mocha --require @babel/register --trace-warnings test/*.js",
     "version": "npm run build",
     "patch": "npm version patch",
     "minor": "npm version minor",
