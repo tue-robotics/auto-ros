@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "eventemitter2": "^6.4.0",
-    "roslib": "^1.2.0"
+    "roslib": "^2.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.0",
