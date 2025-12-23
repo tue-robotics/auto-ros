@@ -1,0 +1,13 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "out": "./doc",
+  "plugin": [],
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "readme": "./README.md",
+  "gitRevision": "main",
+  "name": "auto-ros",
+  "includeVersion": true
+}
