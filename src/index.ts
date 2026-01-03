@@ -169,5 +169,3 @@ export class AutoRos extends EventEmitter2 {
     this.status = 'error'
   }
 }
-
-export default AutoRos

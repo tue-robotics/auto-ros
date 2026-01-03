@@ -1,7 +1,7 @@
 import * as chai from 'chai'
 import sinonChai from 'sinon-chai'
 import { stub, useFakeTimers, type SinonStub, type SinonFakeTimers } from 'sinon'
-import AutoRos from '../src/index.js'
+import { AutoRos } from '../src/index.js'
 
 chai.use(sinonChai)
 const should = chai.should()
