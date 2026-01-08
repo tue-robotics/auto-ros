@@ -34,7 +34,9 @@
     "knip": "knip",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "test": "tsx --test-reporter spec node_modules/mocha/bin/mocha test/*.ts",
+    "pretest": "tsc -p tsconfig.test-build.json",
+    "test": "mocha test-dist/test/test.js",
+    "posttest": "rimraf test-dist",
     "version": "npm run build",
     "postversion": "git push && git push --tags",
     "patch": "npm version patch",
@@ -43,7 +45,7 @@
   },
   "dependencies": {
     "eventemitter2": "^6.4.0",
-    "roslib": "^1.2.0"
+    "roslib": "^2.0.1"
   },
   "devDependencies": {
     "@types/chai": "^5.2.3",
@@ -53,15 +55,14 @@
     "@types/sinon-chai": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^8.50.1",
     "@typescript-eslint/parser": "^8.50.1",
-    "chai": "^5.2.0",
+    "chai": "^6.2.0",
     "eslint": "^9.2.0",
     "globals": "^17.0.0",
     "knip": "^5.79.0",
     "mocha": "^11.0.0",
     "rimraf": "^6.0.0",
     "sinon": "^21.0.0",
-    "sinon-chai": "^4.0.0",
-    "tsx": "^4.21.0",
+    "sinon-chai": "^4.0.1",
     "typedoc": "^0.28.15",
     "typescript": "^5.9.3"
   }

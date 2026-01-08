@@ -1,9 +1,21 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
+  "ignore": [
+    "test/**"
+  ],
   "ignoreExportsUsedInFile": {
     "interface": true,
     "type": true
   },
+  "ignoreDependencies": [
+    "@types/chai",
+    "@types/mocha",
+    "@types/sinon",
+    "@types/sinon-chai",
+    "chai",
+    "sinon",
+    "sinon-chai"
+  ],
   "tags": [
     "-lintignore"
   ]
