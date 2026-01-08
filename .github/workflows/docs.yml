@@ -1,13 +1,24 @@
 name: Docs Deployment
 
 on:
-  push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: "Deploy to GitHub Pages"
+        required: true
+        type: boolean
+        default: false
+
+  workflow_call:
+    inputs:
+      deploy:
+        description: "Deploy to GitHub Pages"
+        required: true
+        type: boolean
+        default: false
 
 jobs:
-  docs:
-    name: Docs Deployment
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -19,12 +30,26 @@ jobs:
         run: npm ci
       - name: Generate docs
         run: npm run doc
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: doc
-          destination_dir: .
-          enable_jekyll: false
-          force_orphan: false  # So we keep the doc history
-          commit_message: JSDoc ${{ github.event.release.name }}
+          path: doc
+
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      actions: read # to read the artifact from the previous job
+      # pages and id-token required to deploy to GitHub Pages
+      pages: write
+      id-token: write
+    if: inputs.deploy
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

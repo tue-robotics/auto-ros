@@ -21,3 +21,9 @@ jobs:
         run: npm run build
       - name: Test
         run: npm test
+
+  docs:
+    uses: ./.github/workflows/docs.yml
+    secrets: inherit
+    with:
+      deploy: false

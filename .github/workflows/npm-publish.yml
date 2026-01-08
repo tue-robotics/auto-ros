@@ -1,36 +1,40 @@
 name: NPM Deployment
 
 on:
-  push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+  release:
+    types: [released, prereleased]
+
+permissions:
+  contents: read
+  id-token: write # Required to authenticate with npm
+  # Required for the docs deployment job
+  actions: read
+  pages: write
 
 jobs:
-  publish-npm:
-    name: Publish to NPM
+  docs:
+    uses: ./.github/workflows/docs.yml
+    secrets: inherit
+    with:
+      deploy: true
+
+  publish:
+    environment: npm
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
-          cache: npm
-          node-version: 24
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "lts/*"
+          registry-url: "https://registry.npmjs.org"
       - name: Install
         run: npm ci
       - name: Build
         run: npm run build
       - name: Test
         run: npm test
-      - name: Create Release
-        id: create-release
-        uses: softprops/action-gh-release@v2
-        with:
-          draft: false
-          prerelease: false
-          generate_release_notes: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish
+        if: ${{ !github.event.release.prerelease }}
+      # npm requires explicitly specifying a "tag" like `next` if the semantic version is a prerelease like `2.0.0-alpha1`
+      - run: npm publish --tag next
+        if: ${{ github.event.release.prerelease }}
