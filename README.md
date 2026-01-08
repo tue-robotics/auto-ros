@@ -42,7 +42,10 @@ autoRos.connect()
 import AutoRos, { type ConnectionStatus } from 'auto-ros'
 
 const autoRos = new AutoRos({
-  reconnectTimeOut: 5000
+  reconnectTimeOut: 5000,
+  rosOptions: {
+    // transportFactory can be provided if you need a custom transport
+  }
 })
 
 autoRos.on('status', (status: ConnectionStatus) => {
@@ -63,6 +66,8 @@ new AutoRos(options?: AutoRosOptions)
 #### Options
 
 - `reconnectTimeOut` (number, optional): Reconnect timeout in milliseconds. Default: `5000`
+- `rosOptions` (object, optional): Options passed to the Ros constructor
+  - `transportFactory` (ITransportFactory, optional): The factory to use to create a transport. Defaults to a WebSocket transport factory.
 
 ### Methods
 

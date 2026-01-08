@@ -171,3 +171,13 @@ describe('AutoRos', () => {
     })
   })
 })
+
+describe('rosOptions.url is not allowed', () => {
+  it('Constructor should throw', () => {
+    const options = { rosOptions: { url: exampleUrl } }
+    const badConstructor = function() {
+      return new AutoRos(options)
+    }
+    badConstructor.should.throw(/url/)
+  })
+})

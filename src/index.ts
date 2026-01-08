@@ -1,6 +1,9 @@
 import { hostname } from 'os'
 import EventEmitter2 from 'eventemitter2'
-import { Ros } from 'roslib'
+import { Ros, type ITransportFactory } from 'roslib'
+
+// Re-export useful types from roslib
+export type { ITransportFactory }
 
 // Private variables
 const host = hostname() || 'localhost'
@@ -18,6 +21,18 @@ export interface AutoRosOptions {
    * @default 5000
    */
   reconnectTimeOut?: number
+  
+  /**
+   * Options passed to the Ros constructor
+   */
+  rosOptions?: {
+    /**
+     * The factory to use to create a transport.
+     * Defaults to a WebSocket transport factory.
+     */
+    transportFactory?: ITransportFactory
+    [key: string]: unknown
+  }
 }
 
 /**
@@ -68,6 +83,7 @@ export class AutoRos extends EventEmitter2 {
    * Create a new AutoRos instance
    * 
    * @param options - Configuration options
+   * @throws {Error} If 'url' is provided in rosOptions (use connect method instead)
    */
   constructor(options?: AutoRosOptions) {
     super()
@@ -75,9 +91,15 @@ export class AutoRos extends EventEmitter2 {
     const opts = options ?? {}
     this._reconnectTimeOut = opts.reconnectTimeOut ?? RECONNECT_TIMEOUT
 
-    console.debug('Creating ROS instance')
+    const rosOptions = opts.rosOptions ?? {}
 
-    this.ros = new Ros()
+    if ('url' in rosOptions) {
+      throw new Error('"url" option to ROS is not allowed. Connect by calling the connect function on this object with the "url" as argument')
+    }
+
+    console.debug('Creating ROS with the options:', rosOptions)
+
+    this.ros = new Ros(rosOptions)
 
     this.ros.on('connection', this.onConnection.bind(this))
     this.ros.on('close', this.onClose.bind(this))
