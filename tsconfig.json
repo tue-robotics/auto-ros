@@ -7,7 +7,6 @@
     /* Modules */
     "module": "ES2022",
     "moduleResolution": "node",
-    "typeRoots": ["./node_modules/@types", "./src/types"],
     
     /* Emit */
     "declaration": true,
