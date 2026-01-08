@@ -1,6 +1,6 @@
 import { hostname } from 'os'
 import EventEmitter2 from 'eventemitter2'
-import ROSLIB from 'roslib'
+import { Ros } from 'roslib'
 
 // Private variables
 const host = hostname() || 'localhost'
@@ -18,18 +18,6 @@ export interface AutoRosOptions {
    * @default 5000
    */
   reconnectTimeOut?: number
-  
-  /**
-   * Options passed to the ROSLIB.Ros constructor
-   */
-  rosOptions?: {
-    /**
-     * Encoding for the WebSocket connection
-     * @default 'ascii'
-     */
-    encoding?: string
-    [key: string]: unknown
-  }
 }
 
 /**
@@ -57,9 +45,9 @@ export type ConnectionStatus = 'connecting' | 'connected' | 'closed' | 'error'
  */
 export class AutoRos extends EventEmitter2 {
   /**
-   * The underlying ROSLIB.Ros instance
+   * The underlying Ros instance
    */
-  public ros: ROSLIB.Ros
+  public ros: Ros
 
   /**
    * Current connection URL
@@ -80,7 +68,6 @@ export class AutoRos extends EventEmitter2 {
    * Create a new AutoRos instance
    * 
    * @param options - Configuration options
-   * @throws {Error} If 'url' is provided in rosOptions (use connect method instead)
    */
   constructor(options?: AutoRosOptions) {
     super()
@@ -88,16 +75,9 @@ export class AutoRos extends EventEmitter2 {
     const opts = options ?? {}
     this._reconnectTimeOut = opts.reconnectTimeOut ?? RECONNECT_TIMEOUT
 
-    const rosOptions = opts.rosOptions ?? {}
-    rosOptions.encoding = rosOptions.encoding ?? 'ascii'
+    console.debug('Creating ROS instance')
 
-    if ('url' in rosOptions) {
-      throw new Error('"url" option to ROS is not allowed. Connect by calling the connect function on this object with the "url" as argument')
-    }
-
-    console.debug('Creating ROS with the options:', rosOptions)
-
-    this.ros = new ROSLIB.Ros(rosOptions)
+    this.ros = new Ros()
 
     this.ros.on('connection', this.onConnection.bind(this))
     this.ros.on('close', this.onClose.bind(this))
@@ -134,8 +114,13 @@ export class AutoRos extends EventEmitter2 {
     this.url = url ?? this.url ?? defaultUrl
 
     console.log(`connecting to ${this.url}`)
-    this.ros.connect(this.url)
     this.status = 'connecting'
+    
+    // Handle the promise but don't change the method signature for backward compatibility
+    this.ros.connect(this.url).catch((error) => {
+      console.error('Connection error:', error)
+      // The error event will be emitted by Ros, so we don't need to do anything else here
+    })
   }
 
   /**

@@ -105,3 +105,6 @@ dist
 
 # JSDoc output
 doc
+
+# Test build output
+test-dist

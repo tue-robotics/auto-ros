@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import * as chai from 'chai'
 import sinonChai from 'sinon-chai'
 import { stub, useFakeTimers, type SinonStub, type SinonFakeTimers } from 'sinon'
 import { AutoRos } from '../src/index.js'
 
 chai.use(sinonChai)
-const should = chai.should()
+chai.should()
 
 const exampleUrl = 'ws://example.com:9090'
 
@@ -20,7 +22,7 @@ describe('AutoRos', () => {
   
   beforeEach('Stub connect', () => {
     connect = stub(autoRos.ros, 'connect')
-    connect.returns()
+    connect.resolves()
   })
 
   afterEach('Restore connect', () => {
@@ -61,25 +63,6 @@ describe('AutoRos', () => {
     /**
      * Stubs
      */
-    let send: SinonStub
-    
-    beforeEach('Stub ros.socket.send', () => {
-      // stub callOnConnection to prevent sending something on the websocket
-      should.not.exist(null)
-      should.not.exist(autoRos.ros.socket)
-
-      send = stub()
-      send.returns()
-      autoRos.ros.socket = {
-        send
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } as any
-    })
-
-    afterEach('Stub callOnConnection', () => {
-      autoRos.ros.socket = null
-    })
-
     let clock: SinonFakeTimers
     
     beforeEach('Stub setTimeout', () => {
@@ -103,7 +86,8 @@ describe('AutoRos', () => {
       connect.should.have.been.calledOnce
       connect.should.have.been.calledWithExactly(exampleUrl)
 
-      autoRos.ros.emit('connection')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      autoRos.ros.emit('connection', {} as any)
       autoRos.status.should.equal('connected')
     })
 
@@ -112,7 +96,8 @@ describe('AutoRos', () => {
       connect.should.have.been.calledOnce
       connect.should.have.been.calledWithExactly(exampleUrl)
 
-      autoRos.ros.emit('close')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      autoRos.ros.emit('close', {} as any)
       autoRos.status.should.equal('closed')
       clock.tick(100)
 
@@ -126,7 +111,8 @@ describe('AutoRos', () => {
     })
 
     it('Should respond to the ros::error event', () => {
-      autoRos.ros.emit('error')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      autoRos.ros.emit('error', {} as any)
       autoRos.status.should.equal('error')
     })
   })
@@ -145,7 +131,7 @@ describe('AutoRos', () => {
     
     beforeEach('Stub connect', () => {
       customConnect = stub(customAutoRos.ros, 'connect')
-      customConnect.returns()
+      customConnect.resolves()
     })
 
     afterEach('Restore connect', () => {
@@ -170,7 +156,8 @@ describe('AutoRos', () => {
       customConnect.should.have.been.calledOnce
       customConnect.should.have.been.calledWithExactly(exampleUrl)
 
-      customAutoRos.ros.emit('close')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      customAutoRos.ros.emit('close', {} as any)
       customAutoRos.status.should.equal('closed')
       clock.tick(5100)
 
@@ -182,15 +169,5 @@ describe('AutoRos', () => {
       customConnect.should.have.been.calledTwice
       customConnect.should.always.have.been.calledWithExactly(exampleUrl)
     })
-  })
-})
-
-describe('rosOptions.url is not allowed', () => {
-  it('Constructor should throw', () => {
-    const options = { rosOptions: { url: exampleUrl } }
-    const badConstructor = function() {
-      return new AutoRos(options)
-    }
-    badConstructor.should.throw(/url/)
   })
 })

@@ -42,10 +42,7 @@ autoRos.connect()
 import AutoRos, { type ConnectionStatus } from 'auto-ros'
 
 const autoRos = new AutoRos({
-  reconnectTimeOut: 5000,
-  rosOptions: {
-    encoding: 'ascii'
-  }
+  reconnectTimeOut: 5000
 })
 
 autoRos.on('status', (status: ConnectionStatus) => {
@@ -66,8 +63,6 @@ new AutoRos(options?: AutoRosOptions)
 #### Options
 
 - `reconnectTimeOut` (number, optional): Reconnect timeout in milliseconds. Default: `5000`
-- `rosOptions` (object, optional): Options passed to ROSLIB.Ros constructor
-  - `encoding` (string, optional): WebSocket encoding. Default: `'ascii'`
 
 ### Methods
 
@@ -77,9 +72,9 @@ Connect to rosbridge. If no URL is provided, uses the previous URL or a default 
 
 ### Properties
 
-#### `ros: ROSLIB.Ros`
+#### `ros: Ros`
 
-The underlying ROSLIB.Ros instance.
+The underlying Ros instance from roslib.
 
 #### `status: ConnectionStatus`
 

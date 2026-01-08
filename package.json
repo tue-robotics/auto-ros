@@ -34,7 +34,9 @@
     "knip": "knip",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "test": "tsx --test-reporter spec node_modules/mocha/bin/mocha test/*.ts",
+    "pretest": "tsc -p tsconfig.test-build.json",
+    "test": "mocha test-dist/test/test.js",
+    "posttest": "rimraf test-dist",
     "version": "npm run build",
     "postversion": "git push && git push --tags",
     "patch": "npm version patch",
@@ -61,7 +63,6 @@
     "rimraf": "^6.0.0",
     "sinon": "^21.0.0",
     "sinon-chai": "^4.0.0",
-    "tsx": "^4.21.0",
     "typedoc": "^0.28.15",
     "typescript": "^5.9.3"
   }
