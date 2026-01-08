@@ -1,8 +1,7 @@
-/* eslint no-unused-expressions: 0 */
 import * as chai from 'chai'
 import sinonChai from 'sinon-chai'
-import { stub, useFakeTimers } from 'sinon'
-import AutoRos from '../src/index.js';
+import { stub, useFakeTimers, type SinonStub, type SinonFakeTimers } from 'sinon'
+import { AutoRos } from '../src/index.js'
 
 chai.use(sinonChai)
 const should = chai.should()
@@ -10,13 +9,15 @@ const should = chai.should()
 const exampleUrl = 'ws://example.com:9090'
 
 describe('AutoRos', () => {
-  let options = {}
-  let autoRos
+  const options = {}
+  let autoRos: AutoRos
+  
   beforeEach('create a AutoRos', () => {
     autoRos = new AutoRos(options)
   })
 
-  let connect
+  let connect: SinonStub
+  
   beforeEach('Stub connect', () => {
     connect = stub(autoRos.ros, 'connect')
     connect.returns()
@@ -60,7 +61,8 @@ describe('AutoRos', () => {
     /**
      * Stubs
      */
-    let send
+    let send: SinonStub
+    
     beforeEach('Stub ros.socket.send', () => {
       // stub callOnConnection to prevent sending something on the websocket
       should.not.exist(null)
@@ -70,14 +72,16 @@ describe('AutoRos', () => {
       send.returns()
       autoRos.ros.socket = {
         send
-      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any
     })
 
     afterEach('Stub callOnConnection', () => {
       autoRos.ros.socket = null
     })
 
-    let clock
+    let clock: SinonFakeTimers
+    
     beforeEach('Stub setTimeout', () => {
       clock = useFakeTimers()
     })
@@ -131,18 +135,25 @@ describe('AutoRos', () => {
     /**
      * Stubs
      */
-    let oldOptions
-    before('Set reconnectTimeOut', () => {
-      oldOptions = options
-      options = {reconnectTimeOut: 10000}
+    let customAutoRos: AutoRos
+    
+    beforeEach('Create AutoRos with custom timeout', () => {
+      customAutoRos = new AutoRos({ reconnectTimeOut: 10000 })
     })
 
-    after('restore options', () => {
-      options = oldOptions
-      options.should.equal(oldOptions)
+    let customConnect: SinonStub
+    
+    beforeEach('Stub connect', () => {
+      customConnect = stub(customAutoRos.ros, 'connect')
+      customConnect.returns()
     })
 
-    let clock
+    afterEach('Restore connect', () => {
+      customConnect.restore()
+    })
+
+    let clock: SinonFakeTimers
+    
     beforeEach('Stub setTimeout', () => {
       clock = useFakeTimers()
     })
@@ -155,32 +166,31 @@ describe('AutoRos', () => {
      * Tests
      */
     it('Should reconnect after the ros::closed event', () => {
-      autoRos.connect(exampleUrl)
-      connect.should.have.been.calledOnce
-      connect.should.have.been.calledWithExactly(exampleUrl)
+      customAutoRos.connect(exampleUrl)
+      customConnect.should.have.been.calledOnce
+      customConnect.should.have.been.calledWithExactly(exampleUrl)
 
-      autoRos.ros.emit('close')
-      autoRos.status.should.equal('closed')
+      customAutoRos.ros.emit('close')
+      customAutoRos.status.should.equal('closed')
       clock.tick(5100)
 
-      connect.should.have.been.calledOnce
-      connect.should.have.been.calledWithExactly(exampleUrl)
+      customConnect.should.have.been.calledOnce
+      customConnect.should.have.been.calledWithExactly(exampleUrl)
 
       clock.tick(5000)
 
-      connect.should.have.been.calledTwice
-      connect.should.always.have.been.calledWithExactly(exampleUrl)
+      customConnect.should.have.been.calledTwice
+      customConnect.should.always.have.been.calledWithExactly(exampleUrl)
     })
   })
 })
 
 describe('rosOptions.url is not allowed', () => {
-
-    it('Constructor should throw', () => {
-      const options = {rosOptions: {url: exampleUrl}}
-      var badConstructor = function() {
+  it('Constructor should throw', () => {
+    const options = { rosOptions: { url: exampleUrl } }
+    const badConstructor = function() {
       return new AutoRos(options)
-      }
-      badConstructor.should.throw(/url/)
-    })
+    }
+    badConstructor.should.throw(/url/)
   })
+})

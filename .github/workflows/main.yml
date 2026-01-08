@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [16, 18, 20]
+        node-version: [20, 22, 24]
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -21,3 +21,9 @@ jobs:
         run: npm run build
       - name: Test
         run: npm test
+
+  docs:
+    uses: ./.github/workflows/docs.yml
+    secrets: inherit
+    with:
+      deploy: false
