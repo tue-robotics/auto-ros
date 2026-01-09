@@ -87,7 +87,7 @@ Current connection status. Can be: `'connecting'`, `'connected'`, `'closed'`, or
 
 ### Events
 
-The class extends `EventEmitter2`, so you can listen to events:
+The class extends `EventEmitter`, so you can listen to events:
 
 - `'status'`: Emitted when connection status changes
 
