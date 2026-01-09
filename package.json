@@ -44,7 +44,7 @@
     "major": "npm version major"
   },
   "dependencies": {
-    "eventemitter2": "^6.4.0",
+    "eventemitter3": "^5.0.1",
     "roslib": "^2.0.1"
   },
   "devDependencies": {

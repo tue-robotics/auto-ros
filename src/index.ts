@@ -1,5 +1,5 @@
 import { hostname } from 'os'
-import EventEmitter2 from 'eventemitter2'
+import EventEmitter from 'eventemitter3'
 import { Ros, type ITransportFactory } from 'roslib'
 
 // Re-export useful types from roslib
@@ -43,7 +43,7 @@ export type ConnectionStatus = 'connecting' | 'connected' | 'closed' | 'error'
 /**
  * Auto reconnecting wrapper of ROSLIB.Ros
  * 
- * This class extends EventEmitter2 and provides automatic reconnection
+ * This class extends EventEmitter and provides automatic reconnection
  * functionality for ROS connections through rosbridge.
  * 
  * @example
@@ -58,7 +58,7 @@ export type ConnectionStatus = 'connecting' | 'connected' | 'closed' | 'error'
  * })
  * ```
  */
-export class AutoRos extends EventEmitter2 {
+export class AutoRos extends EventEmitter {
   /**
    * The underlying Ros instance
    */
