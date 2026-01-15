@@ -1,4 +1,3 @@
-import { hostname } from 'os'
 import EventEmitter from 'eventemitter3'
 import { Ros, type ITransportFactory } from 'roslib'
 
@@ -6,8 +5,7 @@ import { Ros, type ITransportFactory } from 'roslib'
 export type { ITransportFactory }
 
 // Private variables
-const host = hostname() || 'localhost'
-const defaultUrl = `ws://${host}:9090`
+const defaultUrl = `ws://localhost:9090`
 
 // reconnect timeout in ms
 const RECONNECT_TIMEOUT = 5000
