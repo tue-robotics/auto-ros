@@ -25,5 +25,9 @@ jobs:
   docs:
     uses: ./.github/workflows/docs.yml
     secrets: inherit
+    permissions:
+      actions: read
+      pages: write
+      id-token: write
     with:
       deploy: false
