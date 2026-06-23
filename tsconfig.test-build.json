@@ -9,6 +9,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "strict": false,
+    "types": ["@types/mocha"],
     "outDir": "./test-dist"
   }
 }

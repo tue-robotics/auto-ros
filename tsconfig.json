@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
     /* Language and Environment */
+    "rootDir": "./",
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "dom"],
     
     /* Modules */
     "module": "ES2022",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     
     /* Emit */
     "declaration": true,
@@ -35,6 +36,6 @@
     /* Completeness */
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test"]
+  "include": ["./src/**/*"],
+  "exclude": ["./node_modules", "./dist", "./test"]
 }
